@@ -56,3 +56,7 @@ helm upgrade -i flux fluxcd/flux \
 ```
 
 If you fork this repository and customize the manifests make sure you update `git.url`.
+
+### Persistent Storage
+
+Make sure your instances support Premium Storage, otherwise the lotus software will not be able to run.
