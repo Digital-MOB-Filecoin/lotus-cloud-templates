@@ -1,0 +1,50 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: prometheus-operator
+  namespace: lotus-system-monitor
+spec:
+  releaseName: prometheus-operator
+  targetNamespace: lotus-system-monitor
+  chart:
+    repository: https://prometheus-community.github.io/helm-charts
+    name: kube-prometheus-stack
+    version: 12.7.0
+  values:
+    kubelet:
+      enabled: true
+      serviceMonitor:
+        https: true
+        resource: false
+        resourcePath: "/metrics/resource"
+    kubeControllerManager:
+      enabled: false
+    kubeScheduler:
+      enabled: false
+    kubeProxy:
+      enabled: false
+    prometheus:
+      prometheusSpec:
+        resources:
+          requests:
+            cpu: 2000m
+            memory: 4096Mi
+    grafana:
+      defaultDashboardsEnabled: true
+      dashboards:
+        lotus-pubsub:
+          gnetId: 13249
+          revision: 1
+          datasource: Prometheus
+        lotus-node-health:
+          gnetId: 13250
+          revision: 1
+          datasource: Prometheus
+        lotus-api-endpoints:
+          gnetId: 13251
+          revision: 6
+          datasource: Prometheus
+    alertmanager:
+      config:
+        global:
+          resolve_timeout: 5m
