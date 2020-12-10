@@ -55,6 +55,8 @@ nodeGroups:
       podPidsLimit: 4194303
     preBootstrapCommands:
       - sysctl -w kernel.pid_max=4194303
+    labels: 
+      aws.amazon.com/eks-local-ssd: true
   - name: filecoin-us-east-1b
     instanceType: i3en.2xlarge
     availabilityZones: ["us-east-1b"]
@@ -78,6 +80,8 @@ nodeGroups:
       podPidsLimit: 4194303
     preBootstrapCommands:
       - sysctl -w kernel.pid_max=4194303
+    labels: 
+      aws.amazon.com/eks-local-ssd: true
   - name: filecoin-us-east-1c
     instanceType: i3en.2xlarge
     availabilityZones: ["us-east-1c"]
@@ -101,3 +105,5 @@ nodeGroups:
       podPidsLimit: 4194303
     preBootstrapCommands:
       - sysctl -w kernel.pid_max=4194303
+    labels: 
+      aws.amazon.com/eks-local-ssd: true
