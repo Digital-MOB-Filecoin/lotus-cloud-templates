@@ -36,3 +36,23 @@ There are 2 options for using NVMe drives as local storage:
 
 2. [eks-nvme-ssd-provisioner](https://github.com/brunsgaard/eks-nvme-ssd-provisioner) is a NVMe provisioner created by the community that is able to format NVMe drives. We already provide the required labels in the eksctl manifest, if needed.
 
+## Running on Azure
+
+To run a Kubernetes cluster on Azure, the easiest way is to click on the **Deploy to Azure** button in the [aks](aks) directory and follow the wizard prompt. The recommended VM type is `Lsv2` series or `Standard_E8as_v4` or greater if you go with Easv4-series.
+
+### Setting up GitOps
+
+Once the cluster is created, you have to install FluxCD, which will fetch the manifest files and deploy `lotus-aio`:
+
+```sh
+helm repo add fluxcd https://charts.fluxcd.io
+kubectl apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/crds.yaml
+kubectl create namespace flux
+helm upgrade -i flux fluxcd/flux \
+  --set git.url="git@github.com:Digital-MOB-Filecoin/lotus-cloud-templates.git" \
+  --set git.branch=master \
+  --set git.path=flux/ \
+  --set git.readonly=true
+```
+
+If you fork this repository and customize the manifests make sure you update `git.url`.
